@@ -37,7 +37,7 @@ const App = () => {
   }
 
   const resetLight = () => {
-    setRgbColor({r: 75, g: 78, b: 221});
+    setRgbColor({r:255, g: 0, b: 0});
     setBrightness(50);
   }
   
