@@ -7,7 +7,10 @@ const SolidColours = () => {
 
   const [showSelectModal, setShowSelectModal] = useState(false);
   const [modalColour, setModalColour] = useState('#ffffff');
-  const [savedColours, setSavedColours] = useState([]);
+  const [savedColours, setSavedColours] = useState(() => {
+    const stored = localStorage.getItem('saved');
+    return stored ? JSON.parse(stored) : [];
+  });
 
   const handleColorChange = (e) => {
     const hex = e.target.value;
@@ -53,17 +56,6 @@ const SolidColours = () => {
     setSavedColours([...savedColours, modalColour]);
     setShowSelectModal(false);
   }
-
-  useEffect(() => {
-    const stored = localStorage.getItem('saved');
-    if (stored) {
-      try {
-        setSavedColours(JSON.parse(stored));
-      } catch (e) {
-        console.error("Failed to parse saved colours:", e);
-      }
-    }
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('saved', JSON.stringify(savedColours));

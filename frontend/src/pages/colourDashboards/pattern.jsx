@@ -4,7 +4,10 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const PatternColours = () => {
   const [brightness, setBrightness] = useState(50);
-  const [selectedPattern, setSelectedPattern] = useState(null);
+  const [selectedPattern, setSelectedPattern] = useState(() => {
+    const pattern = localStorage.getItem('pattern');
+    return pattern !== "undefined" ? JSON.parse(pattern) : null;
+  });
   const options = ["Colour Bounce", "Fade", "Smooth Fade", "Loading", "Ripple", "Random", "Snake", "Thinking", "Firework", "Breathing"];
   const filteredOptions = [
     '(Clear Selection)',
@@ -15,12 +18,37 @@ const PatternColours = () => {
     setSelectedPattern(value === '(Clear Selection)' ? null : value);
   };
 
+  const configureLight = async () => {
+    try {
+      const response = await fetch("http://10.1.1.93:5000/api/set-pattern", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pattern: selectedPattern,
+          brightness: parseInt(brightness)
+        }),
+      });
 
-  const configureLight = () => {
-
+      if (!response.ok) throw new Error("Failed to send light configuration")
+    } catch (e) {
+      console.error("Error:", e.message);
+    }
   }
 
-  const resetLight = () => {}
+  const resetLight = () => {
+    setSelectedPattern(null);
+    setBrightness(50);
+  }
+
+  useEffect(() => {
+    if (selectedPattern === null) {
+      localStorage.removeItem('pattern');
+    } else {
+      localStorage.setItem('pattern', JSON.stringify(selectedPattern));
+    }
+  }, [selectedPattern]);
 
   return (
     <div className="max-w-2xl mx-auto p-6 rounded-2xl shadow-xl space-y-6 bg-dark">
