@@ -8,7 +8,7 @@ const PatternColours = () => {
     const pattern = localStorage.getItem('pattern');
     return pattern !== "undefined" ? JSON.parse(pattern) : null;
   });
-  const options = ["Colour Bounce", "Fade", "Smooth Fade", "Loading", "Ripple", "Random", "Snake", "Thinking", "Firework", "Breathing"];
+  const options = ["Colour Bounce", "Fade", "Smooth Fade", "Loading", "Ripple", "Rainbow", "Random", "Snake", "Thinking", "Firework", "Breathing"];
   const filteredOptions = [
     '(Clear Selection)',
     ...options.filter((pattern) => pattern !== selectedPattern)
