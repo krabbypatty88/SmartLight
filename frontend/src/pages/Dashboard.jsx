@@ -1,6 +1,7 @@
 import {useState} from 'react';
-import SolidColours from './colourDashboards/solid';
-import PatternColours from './colourDashboards/pattern';
+import SolidColours from './dashboardTabs/solid';
+import PatternColours from './dashboardTabs/pattern';
+import AssistantMode from './dashboardTabs/assistant';
 
 const Dashboard = () => {
 
@@ -12,6 +13,10 @@ const Dashboard = () => {
         return <SolidColours/>
       case 'patterns':
         return <PatternColours/>
+      case 'assistant':
+        return <AssistantMode/>
+      default: 
+        return <SolidColours/>
     }
   }
   
@@ -23,7 +28,7 @@ const Dashboard = () => {
       </div>
 
       <div className="text-center">
-        {['solid', 'patterns'].map((tab) => (
+        {['solid', 'patterns', 'assistant'].map((tab) => (
           <button
             key={tab}
             className={`px-6 py-2 font-semibold ${
