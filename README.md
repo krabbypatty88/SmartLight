@@ -28,20 +28,24 @@ Since the Raspberry Pi’s GPIO outputs operate at **3.3 V logic** and WS2812B L
 
 ## Circuit Description
 
-   <img width="926" height="496" alt="image" src="https://github.com/user-attachments/assets/07364ecf-89cb-4cb4-a9e7-a2878bb56097" />
+<p align="center">
+  <img width="926" height="496" alt="Circuit Diagram" src="https://github.com/user-attachments/assets/07364ecf-89cb-4cb4-a9e7-a2878bb56097" />
+  <br>
+  <em>Figure 1: Level-shifting circuit for Raspberry Pi 3.3 V GPIO to 5 V WS2812B LED strip</em>
+</p>
 
-   **Voltage Sources**
-      - V1 (5 V) Represents the 5 V supply from the Raspberry Pi or an external power source for the LED strip.
-      - V2 (3.3 V) Represents the GPIO output signal from the Raspberry Pi.
+- **Voltage Sources**
+  - **V1 (5 V)** – Represents the 5 V supply from the Raspberry Pi or an external power source for the LED strip.  
+  - **V2 (3.3 V)** – Represents the GPIO output signal from the Raspberry Pi.
 
-   **Capacitor**
-      - C1 (100 µF) is a decoupling capacitor across the 5 V supply to smooth out voltage fluctuations caused by the switching current of the LED strip. This helps reduce noise and voltage dips.
-      
-   **Level-Shifter**
-      - M1 NMOS transistor used as a low-side switch to translate the 3.3 V GPIO signal to a 5 V logic signal.
-      - R1 (10 kΩ) is a pull-up resistor from the 5 V rail to the NMOS drain, ensuring a defined high logic level when the transistor is off.
-      - R2 (10 kΩ) is a pull-down resistor at the gate to ensure the MOSFET remains off when no signal is applied.
-      
-   **Indicator LED**
-      - R3 (1 kΩ) – Current-limiting resistor for the indicator LED.
-      - D1 is a small on-board LED used to verify that the shifted 5 V signal is present and toggling as expected.
+- **Capacitor**
+  - **C1 (100 µF)** – A decoupling capacitor across the 5 V supply to smooth out voltage fluctuations caused by the switching current of the LED strip, helping reduce noise and voltage dips.
+
+- **Level Shifter**
+  - **M1** – NMOS transistor used as a low-side switch to translate the 3.3 V GPIO signal to a 5 V logic signal.  
+  - **R1 (10 kΩ)** – Pull-up resistor from the 5 V rail to the NMOS drain, ensuring a defined high logic level when the transistor is off.  
+  - **R2 (10 kΩ)** – Pull-down resistor at the MOSFET gate to ensure it remains off when no signal is applied.
+
+- **Indicator LED**
+  - **R3 (1 kΩ)** – Current-limiting resistor for the indicator LED.  
+  - **D1** – Small on-board LED used to verify that the shifted 5 V signal is present.
