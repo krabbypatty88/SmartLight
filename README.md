@@ -1,5 +1,9 @@
 # SmartLight
 
+<p align="left">
+  <img width="550" height="550" alt="Circuit Diagram" src="https://github.com/user-attachments/assets/2446951b-d3e7-4051-83c8-dcf5127e9f80" />
+</p>
+
 ## Overview
 
 A custom-built RGB desk light system powered by a Raspberry Pi 5, designed to control brightness and colour via a web-based interface. This project combines electrical circuit design with full-stack development, enabling real-time LED control using JavaScript, GPIO PWM, and a responsive UI.
