@@ -39,7 +39,7 @@ const AssistantMode =  () => {
   const submitMessage = async () => {
     if (message.trim() === '') return;
 
-    // Can't submit a message whilst the bot is still responding to a previous one
+    // Can't submit a message whilst the system is still responding to a previous one
     if (send === false) return;
 
     setSend(false)
@@ -47,21 +47,7 @@ const AssistantMode =  () => {
     const temp = message
     setMessage('')
 
-    // Send the message to the LLM to be processed
-    try {
-      const response = await fetch('http://localhost:5000/query', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: temp }),
-      })
-      const data = await response.json()
-      setChatMessages((prev) => [
-        ...prev,
-        { sender: 'bot', text: data.response}
-      ])
-    } catch (error) {
-      console.error(error)
-    }
+    
     setSend(true)
   } 
     
