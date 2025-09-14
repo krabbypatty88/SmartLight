@@ -1,12 +1,16 @@
 # SmartLight
 
+<p align="left">
+  <img width="550" height="550" alt="Circuit Diagram" src="https://github.com/user-attachments/assets/2446951b-d3e7-4051-83c8-dcf5127e9f80" />
+</p>
+
 ## Overview
 
-A custom-built RGB desk light system powered by a Raspberry Pi 5, designed to control brightness and color via a web-based interface. This project combines electrical circuit design with full-stack development, enabling real-time LED control using JavaScript, GPIO PWM, and a responsive UI.
+A custom-built RGB desk light system powered by a Raspberry Pi 5, designed to control brightness and colour via a web-based interface. This project combines electrical circuit design with full-stack development, enabling real-time LED control using JavaScript, GPIO PWM, and a responsive UI.
 
 ## How it Works
 
-The system uses a **Raspberry Pi 5** to control a WS2812B RGB LED strip via the **Pi5Neo** Python library, which sends color data over the Pi’s **SPI interface (GPIO 10)**.  
+The system uses a **Raspberry Pi 5** to control a WS2812B RGB LED strip via the **Pi5Neo** Python library, which sends colour data over the Pi’s **SPI interface (GPIO 10)**.  
 Since the Raspberry Pi’s GPIO outputs operate at **3.3 V logic** and WS2812B LEDs require a **5 V logic** signal for reliable operation, the data line passes through a **MOSFET-based level-shifting circuit** before reaching the LED strip.
 
 ### Operation
