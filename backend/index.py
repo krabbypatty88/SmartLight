@@ -95,24 +95,21 @@ def set_pattern():
   return jsonify({"message": f"Pattern '{pattern}' started"}), 200
 
 # Stop current lighting pattern
-@app.route('api/stop-pattern', methods=['POST'])
+@app.route('/api/stop-pattern', methods=['POST'])
 def stop_pattern():
   stop_current_pattern()
   return jsonify({"message:" "Pattern stopped"}), 200
 
 # Action user prompt entered into assistant
-@app.route('api/action-prompt', methods=['POST'])
+@app.route('/api/action-prompt', methods=['POST'])
 def action_prompt():
   data = request.json
   prompt = data.get('prompt')
   actions = controller(prompt)
   if not actions: return jsonify({"message": "No recognized action", "actions_fired": []}), 200
-
   on, colour, brightness, pattern = commands(prompt, actions)
 
-
   # Apply to hardware
-
   if not on:
     stop_current_pattern()
     neo.fill_strip(0, 0, 0)
