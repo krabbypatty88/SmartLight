@@ -6,7 +6,6 @@ import SendIcon from '@mui/icons-material/Send';
 import GraphicEqIcon from '@mui/icons-material/GraphicEq';
 
 const AssistantMode =  () => {
-
   const [enabled, setEnabled] = useState(true);
   const switchRef = useRef(null)
   const [message, setMessage] = useState('');
@@ -39,7 +38,7 @@ const AssistantMode =  () => {
   const submitMessage = async () => {
     if (message.trim() === '') return;
 
-    // Can't submit a message whilst the bot is still responding to a previous one
+    // Can't submit a message whilst the system is still responding to a previous one
     if (send === false) return;
 
     setSend(false)
@@ -47,21 +46,24 @@ const AssistantMode =  () => {
     const temp = message
     setMessage('')
 
-    // Send the message to the LLM to be processed
     try {
-      const response = await fetch('http://localhost:5000/query', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: temp }),
-      })
-      const data = await response.json()
-      setChatMessages((prev) => [
-        ...prev,
-        { sender: 'bot', text: data.response}
-      ])
-    } catch (error) {
-      console.error(error)
+      const response = await fetch("http://10.1.1.93:5000/api/action-prompt", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: temp
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to send light configuration");
+
+      console.log("Light configured successfully");
+    } catch (e) {
+      console.error("Error:", e.message);
     }
+
     setSend(true)
   } 
     
@@ -73,17 +75,13 @@ const AssistantMode =  () => {
         </div>
         {enabled && (
           <div className="flex flex-row bg-light gap-0 p-4 rounded-xl">
-            <div className="border rounded-xl">
-              Hello
-            </div>
             <div className="w-[1000px] min-h-200 rounded-2xl shadow-xl bg-light">
               <div className="flex-grow overflow-y-auto border rounded-xl p-6 bg-gray-100">
                 {chatMessages.length === 0 ? (
-                  <p className="text-gray-500 italic text-center">
-                    🤖 I’m ready when you are — ask me anything. 
-                  </p>
-                  ):(
-                    chatMessages.map((msg, index) => (
+                  <p className="text-gray-500 italic text-center">🤖 Tell me what you want!</p>
+                ) : (
+                  <div className="flex flex-col space-y-3">
+                    {chatMessages.map((msg, index) => (
                       <div
                         key={index}
                         className={`p-3 rounded-xl max-w-[70%] ${
@@ -94,8 +92,9 @@ const AssistantMode =  () => {
                       >
                         {msg.text}
                       </div>
-                    ))
-                  )}
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-4 p-4">
                 <textarea
