@@ -80,7 +80,7 @@ Pattern names are converted to camelCase and imported dynamically from the `/pat
 `"Colour Bounce"` => `patternModes.colourBounce`  
 `"Smooth Fade"` => `patternModes.smoothFade`
 
-## `/api/action-prompt` - Turn User Prompt into Actionable
+### `/api/action-prompt` - Turn User Prompt into Actionable
 **Method:** `POST`
 
 **Request Body:**
