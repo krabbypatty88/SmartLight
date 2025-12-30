@@ -3,7 +3,8 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
-import GraphicEqIcon from '@mui/icons-material/GraphicEq';
+import ErrorModal from '../../components/errorModal';
+import VoiceRecordButton from '../../components/voiceRecordButton';
 
 const AssistantMode =  () => {
   const [enabled, setEnabled] = useState(true);
@@ -15,12 +16,18 @@ const AssistantMode =  () => {
     return savedMessages ? JSON.parse(savedMessages) : []
   });
 
+  // Error Modal 
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
+  // Function handles toggling of assistant mode panel
   const handleChange = (e) => {
     if (e.target.checked) {
       console.log("Assistant mode enabled");
       setEnabled(true);
     } else {
       console.log("Assistant mode disabled");
+      setChatMessages([])
       setEnabled(false);
     }
   }
@@ -36,10 +43,18 @@ const AssistantMode =  () => {
   }, [chatMessages]);
 
   const submitMessage = async () => {
-    if (message.trim() === '') return;
+    if (message.trim() === '') {
+      setErrorMessage('Please enter a valid command');
+      setShowErrorModal(true);
+      return;
+    }
 
     // Can't submit a message whilst the system is still responding to a previous one
-    if (send === false) return;
+    if (send === false) {
+      setErrorMessage('System is currently processing previous request');
+      setShowErrorModal(false);
+      return;
+    } 
 
     setSend(false)
     setChatMessages([...chatMessages, { sender: 'user', text: message }])
@@ -62,10 +77,16 @@ const AssistantMode =  () => {
       console.log("Light configured successfully");
     } catch (e) {
       console.error("Error:", e.message);
+      setErrorMessage('Light is not currently configured');
+      setShowErrorModal(true);
     }
-
     setSend(true)
   } 
+
+  // Record audio message to send to backend for transcription
+  const recordMessage = async () => {
+
+  }
     
   return (
     <div className="w-[1200px] mx-auto p-6 rounded-2xl shadow-xl mb-10 space-y-6 bg-dark">
@@ -114,11 +135,11 @@ const AssistantMode =  () => {
                     }
                   }} 
                 />
-                <IconButton
-                  onClick={submitMessage}
-                >
-                  <GraphicEqIcon/>
-                </IconButton>
+                <VoiceRecordButton 
+                  onTranscript={(message) => {
+                    setMessage(message)
+                    submitMessage()
+                }}/>
                 <IconButton 
                   className={send ? '' : 'bg-gray-400 text-white cursor-not-allowed'}
                   color={send ? 'primary' : 'secondary'}
@@ -132,6 +153,12 @@ const AssistantMode =  () => {
           </div>
         )}
       </div>
+      {showErrorModal && (
+        <ErrorModal
+          errorMessage={errorMessage}
+          onConfirm={() => setShowErrorModal(false)}
+        />
+      )}
     </div>
   )
 }
