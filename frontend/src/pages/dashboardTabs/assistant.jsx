@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import ErrorModal from '../../components/errorModal';
 import VoiceRecordButton from '../../components/voiceRecordButton';
+import { getApiUrl } from '../../utils/backendConfig';
 
 const AssistantMode =  () => {
   const [enabled, setEnabled] = useState(true);
@@ -62,7 +63,8 @@ const AssistantMode =  () => {
     setMessage('')
 
     try {
-      const response = await fetch("http://10.1.1.93:5000/api/action-prompt", {
+      const url = await getApiUrl('/api/action-prompt');
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

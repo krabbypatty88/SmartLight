@@ -1,11 +1,13 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import SolidColours from './dashboardTabs/solid';
 import PatternColours from './dashboardTabs/pattern';
 import AssistantMode from './dashboardTabs/assistant';
+import SettingsModal from '../components/settingsModal';
 
 const Dashboard = () => {
 
   const [activeTab, setActiveTab] = useState('solid');
+  const [showSettings, setShowSettings] = useState(false);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -22,9 +24,18 @@ const Dashboard = () => {
   
   return (
     <div className="w-full h-screen px-6 py-10 bg-light">
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold text-dark">SmartLight</h1>
-        <p className="text-gray-700 mt-2">Fine-tuned lighting control</p>
+      <div className="mb-10 flex justify-between items-center">
+        <div className="flex-1 text-center">
+          <h1 className="text-4xl font-extrabold text-dark">SmartLight</h1>
+          <p className="text-gray-700 mt-2">Fine-tuned lighting control</p>
+        </div>
+        <button
+          onClick={() => setShowSettings(true)}
+          className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition duration-200 text-sm"
+          title="Backend Settings"
+        >
+          ⚙️ Settings
+        </button>
       </div>
 
       <div className="text-center">
@@ -43,6 +54,11 @@ const Dashboard = () => {
         ))}
       </div>
       <div> {renderContent()} </div>
+      
+      <SettingsModal 
+        isOpen={showSettings} 
+        onClose={() => setShowSettings(false)}
+      />
     </div>
   );
 }

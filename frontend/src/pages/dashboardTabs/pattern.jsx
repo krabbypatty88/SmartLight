@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { getApiUrl } from '../../utils/backendConfig';
 
 const PatternColours = () => {
   const [brightness, setBrightness] = useState(50);
@@ -20,7 +21,8 @@ const PatternColours = () => {
 
   const configureLight = async () => {
     try {
-      const response = await fetch("http://10.1.1.93:5000/api/set-pattern", {
+      const url = await getApiUrl('/api/set-pattern');
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

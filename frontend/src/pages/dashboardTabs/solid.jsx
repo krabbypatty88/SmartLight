@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import ColourModal from '../../components/colourModal';
+import { getApiUrl } from '../../utils/backendConfig';
 
 const SolidColours = () => {
   const [rgbColor, setRgbColor] = useState({r: 255, g: 0, b: 0}); // set to red by default
@@ -22,7 +23,8 @@ const SolidColours = () => {
 
   const configureLight = async () => {
     try {
-      const response = await fetch("http://10.1.1.93:5000/api/set-light", {
+      const url = await getApiUrl('/api/set-light');
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
