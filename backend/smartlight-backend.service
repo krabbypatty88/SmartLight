@@ -1,0 +1,15 @@
+[Unit]
+Description=SmartLight Pi Backend
+After=network.target
+
+[Service]
+Type=simple
+User=patri
+WorkingDirectory=/home/patri/Desktop/SmartLight/backend
+ExecStart=/home/patri/Desktop/SmartLight/backend/start-backend.sh
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
